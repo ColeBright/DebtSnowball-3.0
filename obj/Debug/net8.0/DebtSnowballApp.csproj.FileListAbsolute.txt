@@ -1,12 +1,13 @@
+C:\Users\coleb\Desktop\DebtSnowballApp\obj\Debug\net8.0\DebtSnowballApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\coleb\Desktop\DebtSnowballApp\obj\Debug\net8.0\DebtSnowballApp.AssemblyInfoInputs.cache
+C:\Users\coleb\Desktop\DebtSnowballApp\obj\Debug\net8.0\DebtSnowballApp.AssemblyInfo.cs
+C:\Users\coleb\Desktop\DebtSnowballApp\obj\Debug\net8.0\DebtSnowballApp.csproj.CoreCompileInputs.cache
+C:\Users\coleb\Desktop\DebtSnowballApp\obj\Debug\net8.0\DebtSnowballApp.sourcelink.json
 C:\Users\coleb\Desktop\DebtSnowballApp\bin\Debug\net8.0\DebtSnowballApp.exe
 C:\Users\coleb\Desktop\DebtSnowballApp\bin\Debug\net8.0\DebtSnowballApp.deps.json
 C:\Users\coleb\Desktop\DebtSnowballApp\bin\Debug\net8.0\DebtSnowballApp.runtimeconfig.json
 C:\Users\coleb\Desktop\DebtSnowballApp\bin\Debug\net8.0\DebtSnowballApp.dll
 C:\Users\coleb\Desktop\DebtSnowballApp\bin\Debug\net8.0\DebtSnowballApp.pdb
-C:\Users\coleb\Desktop\DebtSnowballApp\obj\Debug\net8.0\DebtSnowballApp.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\coleb\Desktop\DebtSnowballApp\obj\Debug\net8.0\DebtSnowballApp.AssemblyInfoInputs.cache
-C:\Users\coleb\Desktop\DebtSnowballApp\obj\Debug\net8.0\DebtSnowballApp.AssemblyInfo.cs
-C:\Users\coleb\Desktop\DebtSnowballApp\obj\Debug\net8.0\DebtSnowballApp.csproj.CoreCompileInputs.cache
 C:\Users\coleb\Desktop\DebtSnowballApp\obj\Debug\net8.0\DebtSnowballApp.dll
 C:\Users\coleb\Desktop\DebtSnowballApp\obj\Debug\net8.0\refint\DebtSnowballApp.dll
 C:\Users\coleb\Desktop\DebtSnowballApp\obj\Debug\net8.0\DebtSnowballApp.pdb

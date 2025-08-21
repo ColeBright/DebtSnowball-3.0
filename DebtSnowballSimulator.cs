@@ -7,14 +7,18 @@ namespace DebtSnowballApp
     public class DebtSnowballSimulator
     {
         private readonly List<Debt> _debts;
-        private readonly decimal _monthlyAllocation;
+        private decimal _monthlyAllocation;
         private int _currentMonth;
+        private decimal _originalAllocation;
+        private List<decimal> _monthlyAllocations;
         
         public DebtSnowballSimulator(List<Debt> debts, decimal monthlyAllocation)
         {
             _debts = debts;
             _monthlyAllocation = monthlyAllocation;
+            _originalAllocation = monthlyAllocation;
             _currentMonth = 0;
+            _monthlyAllocations = new List<decimal>();
         }
         
         public void RunSimulation()
@@ -42,6 +46,10 @@ namespace DebtSnowballApp
         
         private void ProcessMonth()
         {
+            // Track which debts were paid off this month to increase allocation (avoid double counting)
+            var debtsBeforePayment = _debts.Where(d => !d.IsPaidOff).ToList();
+            var processedThisMonth = new HashSet<Debt>();
+            
             // First, make minimum payments to all unpaid debts (these don't count against monthly allocation)
             foreach (var debt in _debts.Where(d => !d.IsPaidOff))
             {
@@ -52,12 +60,37 @@ namespace DebtSnowballApp
                 }
             }
             
-            // Then, apply the full monthly allocation to the smallest debt (debt snowball method)
-            var smallestDebt = _debts.FirstOrDefault(d => !d.IsPaidOff);
-            if (smallestDebt != null)
+            // Check if any debts were paid off by minimum payments and increase allocation
+            CheckForNewlyPaidDebts(debtsBeforePayment, processedThisMonth);
+            
+            // Then, apply the monthly allocation to debts in snowball order, cascading leftover within the same month
+            decimal remainingExtra = _monthlyAllocation;
+            while (remainingExtra > 0)
             {
-                smallestDebt.MakePayment(_monthlyAllocation);
+                var nextDebt = _debts.FirstOrDefault(d => !d.IsPaidOff);
+                if (nextDebt == null)
+                {
+                    break;
+                }
+                decimal beforeBalance = nextDebt.Balance;
+                decimal leftover = nextDebt.MakePayment(remainingExtra);
+                if (nextDebt.IsPaidOff && beforeBalance > 0)
+                {
+                    // Increase allocation once for this debt
+                    processedThisMonth.Add(nextDebt);
+                    _monthlyAllocation += nextDebt.MinimumPayment;
+                    Console.WriteLine($"🎉 Debt paid off! Monthly allocation increased by ${nextDebt.MinimumPayment:F2} to ${_monthlyAllocation:F2}");
+                }
+                // Prevent infinite loop if nothing was applied
+                if (leftover == remainingExtra)
+                {
+                    break;
+                }
+                remainingExtra = leftover;
             }
+            
+            // Record this month's allocation for accurate total calculation
+            _monthlyAllocations.Add(_monthlyAllocation);
         }
         
         private void PrintMonthSummary()
@@ -94,7 +127,7 @@ namespace DebtSnowballApp
         private void PrintFinalSummary()
         {
             decimal totalMinPayments = _debts.Sum(d => d.MinimumPayment) * _currentMonth;
-            decimal totalExtraPayments = _monthlyAllocation * _currentMonth;
+            decimal totalExtraPayments = CalculateTotalExtraPayments();
             decimal totalAmountPaid = totalMinPayments + totalExtraPayments;
             
             Console.WriteLine("\n=== FINAL SUMMARY ===");
@@ -103,12 +136,38 @@ namespace DebtSnowballApp
             Console.WriteLine($"Total minimum payments: ${totalMinPayments:F2}");
             Console.WriteLine($"Total extra payments: ${totalExtraPayments:F2}");
             Console.WriteLine($"Total amount paid: ${totalAmountPaid:F2}");
+            Console.WriteLine($"Final monthly allocation: ${_monthlyAllocation:F2} (started at ${_originalAllocation:F2})");
             Console.WriteLine("\n🎉 Congratulations! You're debt-free! 🎉");
+        }
+        
+        private void CheckForNewlyPaidDebts(List<Debt> debtsBeforePayment, HashSet<Debt> processedThisMonth)
+        {
+            var newlyPaidDebts = debtsBeforePayment.Where(d => d.IsPaidOff && !processedThisMonth.Contains(d)).ToList();
+            foreach (var debt in newlyPaidDebts)
+            {
+                processedThisMonth.Add(debt);
+                _monthlyAllocation += debt.MinimumPayment;
+                Console.WriteLine($"🎉 Debt paid off! Monthly allocation increased by ${debt.MinimumPayment:F2} to ${_monthlyAllocation:F2}");
+            }
+        }
+        
+        private decimal CalculateTotalExtraPayments()
+        {
+            return _monthlyAllocations.Sum();
         }
         
         private bool AllDebtsPaidOff()
         {
             return _debts.All(d => d.IsPaidOff);
         }
+        
+        // Test helper methods - only for unit testing
+        #if DEBUG
+        public List<Debt> GetDebtsForTesting() => _debts;
+        public decimal GetMonthlyAllocationForTesting() => _monthlyAllocation;
+        public int GetCurrentMonthForTesting() => _currentMonth;
+        public bool AllDebtsPaidOffForTesting() => AllDebtsPaidOff();
+        public void ProcessMonthForTesting() => ProcessMonth();
+        #endif
     }
 } 

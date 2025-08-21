@@ -7,4 +7,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="DebtSnowballApp.Tests\**\*.cs" />
+    <None Remove="DebtSnowballApp.Tests\**\*" />
+    <EmbeddedResource Remove="DebtSnowballApp.Tests\**\*" />
+  </ItemGroup>
+
 </Project> 

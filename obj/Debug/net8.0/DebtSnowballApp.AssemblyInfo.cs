@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DebtSnowballApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+04b97ef6ed39a4e73f17582bb67fd860ee4575a7")]
 [assembly: System.Reflection.AssemblyProductAttribute("DebtSnowballApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DebtSnowballApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
